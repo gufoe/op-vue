@@ -16,6 +16,7 @@ import OpVue from 'op-vue'
 Vue.use(OpVue, {
   api: 'https://YOUR-DOMAIN.onpage.it/api/',
   token: 'YOUR-APP-TOKEN',
+  // debug: true,
 })
 
 new Vue({

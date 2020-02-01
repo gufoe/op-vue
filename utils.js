@@ -1,5 +1,5 @@
 import pako from 'pako'
-const LosslessJSON = require('lossless-json')
+const PreciseJSON = require('precise-json')
 
 if (!Array.prototype.flat) {
 Object.defineProperty(Array.prototype, 'flat', {
@@ -45,7 +45,7 @@ export default {
     } else {
       // console.log('stringifying object...')
       // console.time('stringify')
-      // obj = LosslessJSON.stringify(obj)
+      // obj = PreciseJSON.stringify(obj)
       // console.timeLog('stringify')
       // console.log('compressing object from ', obj.length, 'bytes...')
       // console.time('deflate')
@@ -92,7 +92,7 @@ export default {
           // console.timeEnd('inflate')
           // console.log('parsing resulting', obj.length, 'bytes...')
           // console.time('parse')
-          obj = LosslessJSON.parse(obj)
+          obj = PreciseJSON.parse(obj)
           // console.timeLog('parse')
           // console.log('finish')
           on_finish(obj)

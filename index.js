@@ -233,12 +233,15 @@ export default {
             // })
         }
 
-        record.get_field_image = (field_name) => {
+        record.get_url = (field_name, w, h, contain, format) => {
           let value = record.get_value(field_name)
           if (!value) return
           let token = value.token
           let ext = value.ext
-          return this.opts.api + 'storage/' + token + '.500x-contain.' + ext
+          let opts = [w||'', h||''].join('x')
+          if (contain) opts+= '-contain'
+          opts+= '.' + format || 'png'
+          return this.opts.api + 'storage/' + token + '.' + opts
         }
       })
     })
