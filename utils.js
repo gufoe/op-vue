@@ -1,7 +1,5 @@
-import ldb from './ldb'
 import pako from 'pako'
-
-const LosslessJSON = require('lossless-json');
+import LosslessJSON from 'lossless-json'
 
 if (!Array.prototype.flat) {
 Object.defineProperty(Array.prototype, 'flat', {
