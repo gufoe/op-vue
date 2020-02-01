@@ -4,9 +4,9 @@
 ## Install:
 ```bash
 # If you use yarn
-yarn add https://github.com/gufoe/op-core.git
+yarn add https://github.com/gufoe/op-vue.git
 # If you use npm
-npm i -s https://github.com/gufoe/op-core.git
+npm i -s https://github.com/gufoe/op-vue.git
 ```
 
 In your main.js file:
