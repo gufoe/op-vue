@@ -1,5 +1,5 @@
 {
-  "name": "op-core",
+  "name": "op-vue",
   "version": "1.0.0",
   "main": "index.js",
   "repository": "git@gitlab.com:oplit/op.js.git",
