@@ -1,12 +1,13 @@
 {
   "name": "op-vue",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "main": "index.js",
   "repository": "git@gitlab.com:oplit/op.js.git",
   "author": "Giacomo Rizzi <gufoes@gmail.com>",
   "license": "MIT",
   "dependencies": {
     "axios": "^0.19.2",
+    "collect.js": "^4.20.2",
     "lzutf8": "^0.5.5",
     "precise-json": "^1.0.5"
   }

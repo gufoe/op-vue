@@ -44,3 +44,18 @@ export default {
 ```
 
 You will now be able to access your data at `$op.data` and `$op.db`.
+Example code:
+
+```html
+<div v-if="!$op.db">
+  Downloading data...
+</div>
+<div v-else>
+  <ul>
+    <li v-for="cat in categories" :key="cat.id">
+      {{ cat.get_value('name') }}
+      <img width="100px" :src="sez.get_url('immagine', { w: 100, h: 100, zoom: false, format: 'png' })" alt="">
+    </li>
+  </ul>
+</div>
+```

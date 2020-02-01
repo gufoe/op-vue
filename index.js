@@ -1,4 +1,5 @@
 import axios from 'axios'
+import collect from 'collect.js';
 import utils from './utils'
 import Vue from 'vue'
 
@@ -197,7 +198,7 @@ export default {
       let _name_to_field = {}
       res.fields.forEach(f => (_name_to_field[f.name] = f))
 
-      $op.db[res.name] = res.data
+      $op.db[res.name] = collect(res.data)
       res.data.forEach((record, record_i) => {
         $op.id_to_record[record.id] = record
 
@@ -233,15 +234,21 @@ export default {
             // })
         }
 
-        record.get_url = (field_name, {w, h, zoom, format}) => {
+        record.get_url = (field_name, opts) => {
+          opts = opts || {}
+          let w = opts.w || 600
+          let h = opts.h || null
+          let zoom = opts.zoom || false
+          let format = opts.format || 'png'
+
           let value = record.get_value(field_name)
           if (!value) return
           let token = value.token
           let ext = value.ext
-          let opts = [w||'', h||''].join('x')
-          if (!zoom) opts+= '-contain'
-          opts+= '.' + (format || 'png')
-          return this.opts.api + 'storage/' + token + '.' + opts
+          let trailer = [w||'', h||''].join('x')
+          if (!zoom) trailer+= '-contain'
+          trailer+= '.' + (format || 'png')
+          return this.opts.api + 'storage/' + token + '.' + trailer
         }
       })
     })

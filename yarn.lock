@@ -21,6 +21,11 @@ axios@^0.19.2:
   dependencies:
     follow-redirects "1.5.10"
 
+collect.js@^4.20.2:
+  version "4.20.2"
+  resolved "https://registry.yarnpkg.com/collect.js/-/collect.js-4.20.2.tgz#d5b030cb901d1283a34b68a5aabb7dd43139cfbd"
+  integrity sha512-DLmjcYjUxhPHH+7mPdSSDz4ciqyyXh39BPCM0gjow4EuBGHxB3xUgkdYfbWdKSC4tgPbySagt/mvJsd1an+nMQ==
+
 debug@=3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/debug/-/debug-3.1.0.tgz#5bb5a0672628b64149566ba16819e61518c67261"
