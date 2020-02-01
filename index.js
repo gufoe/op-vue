@@ -44,7 +44,7 @@ export default {
     $op.update = null
 
 
-    $op.load_from_storage = on_finish => {
+    $op.loadFromStorage = on_finish => {
       $op.update = {
         from_cache: true,
         percent: 0.1,
@@ -72,15 +72,26 @@ export default {
       track()
     }
 
-    $op.downloadUpdates = () => {
-      console.log('Checking for updates...')
+    $op.init = (download_updates) => {
+      $op.loadFromStorage(() => {
+        if (download_updates) $op.downloadUpdates()
+      })
+    }
+
+    $op.downloadUpdates = (on_finish) => {
+      $opts.debug && console.log('Checking for updates...')
       let last_token = localStorage.getItem('op-data-version')
       if (!last_token) {
+        $opts.debug && console.log('No previous data found, updating')
         $op.downloadData()
       } else {
+        $opts.debug && console.log('Checking if new versions are available')
         axios.get($opts.api + 'view/' + $opts.token + '/dist').then(res => {
           if (res.data.token != last_token) {
+            $opts.debug && console.log('New version available')
             $op.downloadData()
+          } else {
+            $opts.debug && console.log('No new version available')
           }
         })
       }
@@ -88,16 +99,16 @@ export default {
 
     $op.downloadData = (on_finish_callback, on_error_callback) => {
       if ($op.update) {
-        console.log('already updating, download aborted')
+        $opts.debug && console.log('already updating, download aborted')
         if (on_error_callback) on_error_callback()
         return
       }
       $op.update = { percent: 0 }
 
-      console.log('downloading info...')
+      $opts.debug && console.log('downloading info...')
       axios.get($opts.api + 'view/' + $opts.token + '/dist').then(res => {
         let dist = res.data
-        console.log('downloading data...')
+        $opts.debug && console.log('downloading data...')
         axios.get($opts.api + 'storage/' + dist.token, {
           responseType: 'text',
           transformResponse: [(data) => { return data; }],
@@ -105,21 +116,21 @@ export default {
             $op.update.percent = p.loaded / dist.size
           }
         }).then(res => {
-          console.log('download complete, getting json...', typeof res.data)
+          $opts.debug && console.log('download complete, getting json...', typeof res.data)
           try {
           // res.data.text().then(json => {
-            console.log('parsing json...')
+            $opts.debug && console.log('parsing json...')
             // let data = JSON.parse(res.data)
             let data = utils.parse_json(res.data)
             // __json_parse(res.data, data => {
-            console.log('storing data...')
+            $opts.debug && console.log('storing data...')
             $op.data = data
             $utils.store('op-data', res.data)
             localStorage.setItem('op-data-version', dist.token)
 
-            console.log('adding functions to data...')
+            $opts.debug && console.log('adding functions to data...')
             this.addFunctionsToData()
-            console.log('finished everything')
+            $opts.debug && console.log('finished everything')
 
             $op.update = null
             if (on_finish_callback) on_finish_callback()
@@ -127,28 +138,24 @@ export default {
 
 
           } catch (err) {
-            console.error('error parsing json', JSON.stringify(err.message))
+            $opts.debug && console.error('error parsing json', JSON.stringify(err.message))
             $op.update = null
             if (on_error_callback) on_error_callback(err.message)
           }
 
         }).catch(err => { // catch axios error
-          console.error('error downloading data', JSON.stringify(err.message))
+          $opts.debug && console.error('error downloading data', JSON.stringify(err.message))
           $op.update = null
           if (on_error_callback) on_error_callback(err.message)
         })
       })
-
-
-
     }
 
-    return $op
   },
 
   addFunctionsToData () {
     if (!$op.data) {
-      console.log('$op.data not set, not adding functions to data')
+      $opts.debug && console.log('$op.data not set, not adding functions to data')
       $op.db = null
       return
     }
@@ -218,7 +225,7 @@ export default {
               .map(id => {
                 let el = $op.id_to_record[id]
                 if (!el) {
-                  console.log(`ERR: cannot find related element for ${record.id}, fn=${field_name}, fid=${field.id}, id404=${id}`)
+                  $opts.debug && console.log(`ERR: cannot find related element for ${record.id}, fn=${field_name}, fid=${field.id}, id404=${id}`)
                 }
                 return el
               })

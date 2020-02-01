@@ -12,10 +12,19 @@ npm i -s https://github.com/gufoe/op-vue.git
 In your main.js file:
 ```js
 import OpVue from 'op-vue'
+
 Vue.use(OpVue, {
   api: 'https://YOUR-DOMAIN.onpage.it/api/',
   token: 'YOUR-APP-TOKEN',
 })
+
+new Vue({
+  router,
+  render: h => h(App),
+  data: {
+    $op: Vue.$op,
+  },
+}).$mount('#app')
 ```
 
 In your App.vue file:
@@ -28,7 +37,7 @@ export default {
             // ...
         }
     },
-    
+
     created () {
         $op.checkUpdates()
     }
@@ -37,5 +46,3 @@ export default {
 ```
 
 You will now be able to access your data at `$op.data` and `$op.db`.
-
-
