@@ -23,6 +23,11 @@ follow-redirects@1.5.10:
   dependencies:
     debug "=3.1.0"
 
+lossless-json@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/lossless-json/-/lossless-json-1.0.3.tgz#f9ce7daeb79e4a0f38a3c0340177654b434bc2a2"
+  integrity sha512-r4w0WrhIHV1lOTVGbTg4Toqwso5x6C8pM7Q/Nto2vy4c7yUSdTYVYlj16uHVX3MT1StpSELDv8yrqGx41MBsDA==
+
 lzutf8@^0.5.5:
   version "0.5.5"
   resolved "https://registry.yarnpkg.com/lzutf8/-/lzutf8-0.5.5.tgz#3f677ef865eae628fca5f8c6a423ae631371a71c"
