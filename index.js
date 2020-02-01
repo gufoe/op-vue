@@ -69,7 +69,7 @@ export default {
       track()
     }
 
-    $op.checkUpdates = () => {
+    $op.downloadUpdates = () => {
       console.log('Checking for updates...')
       let last_token = localStorage.getItem('op-data-version')
       if (!last_token) {
