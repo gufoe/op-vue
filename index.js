@@ -34,7 +34,10 @@ export default {
   install (Vue, $opts) {
     this.opts = $opts
 
-    let $op = window.$op = Vue.prototype.$op = {}
+    let $op = window.$op = Vue.$op = Vue.prototype.$op = {
+      data: null,
+      db: null,
+    }
     window.$utils = Vue.prototype.$utils = utils
 
     $op.lang = 'it'
