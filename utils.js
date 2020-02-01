@@ -1,5 +1,5 @@
 import pako from 'pako'
-import LosslessJSON from 'lossless-json'
+const LosslessJSON = require('lossless-json')
 
 if (!Array.prototype.flat) {
 Object.defineProperty(Array.prototype, 'flat', {
@@ -28,11 +28,11 @@ export default {
         dir_entry.getFile(name, { create: true }, function(file_entry) {
           file_entry.createWriter(function(file_writer) {
             file_writer.onwriteend = function(e) {
-              console.log('Write of file "' + name + '"" completed.')
+              // console.log('Write of file "' + name + '"" completed.')
             }
 
             file_writer.onerror = function(e) {
-              console.log('Write failed: ' + e.toString())
+              // console.log('Write failed: ' + e.toString())
               alert('Errore nella scrittura del file:\n'+e.toString())
             }
 
@@ -47,11 +47,11 @@ export default {
       // console.time('stringify')
       // obj = LosslessJSON.stringify(obj)
       // console.timeLog('stringify')
-      console.log('compressing object from ', obj.length, 'bytes...')
+      // console.log('compressing object from ', obj.length, 'bytes...')
       // console.time('deflate')
       obj = pako.deflate(obj, { to: 'string' })
       // console.timeLog('deflate')
-      console.log('saving compressed item ', obj.length, 'bytes...')
+      // console.log('saving compressed item ', obj.length, 'bytes...')
       // ldb.set(name, obj);
       localStorage.setItem(name, obj)
     }
@@ -80,24 +80,24 @@ export default {
       // ldb.get(name, function(obj) {
       // console.time('getItem')
       setTimeout(() => {
-        console.log('get item')
+        // console.log('get item')
         let obj = localStorage.getItem(name)
-        console.log('get item ok:', obj ? obj.length : 'nessun dato')
+        // console.log('get item ok:', obj ? obj.length : 'nessun dato')
         // console.timeLog('getItem')
         if (!obj) return on_finish(null)
         try {
           // console.time('inflate')
-          console.log('decompressing', obj.length, 'bytes...')
+          // console.log('decompressing', obj.length, 'bytes...')
           obj = pako.inflate(obj, { to: 'string' })
           // console.timeEnd('inflate')
-          console.log('parsing resulting', obj.length, 'bytes...')
+          // console.log('parsing resulting', obj.length, 'bytes...')
           // console.time('parse')
           obj = LosslessJSON.parse(obj)
           // console.timeLog('parse')
-          console.log('finish')
+          // console.log('finish')
           on_finish(obj)
         } catch (e) {
-          console.log('error', e)
+          // console.log('error', e)
           on_finish(null)
         }
       }, 10);
