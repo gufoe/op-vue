@@ -217,23 +217,6 @@ export default {
           // })
         }
 
-        // Returns all the related items given the field name
-        record.get_rel = (field_name) => {
-          // return Tim.bench('get_rel', ()=>{
-            let field = _name_to_field[field_name]
-            if (!field) return []
-            return record.rel_ids[field.id]
-              .map(id => {
-                let el = $op.id_to_record[id]
-                if (!el) {
-                  this.opts.debug && console.log(`ERR: cannot find related element for ${record.id}, fn=${field_name}, fid=${field.id}, id404=${id}`)
-                }
-                return el
-              })
-              .filter(x => x)
-            // })
-        }
-
         record.get_url = (field_name, opts) => {
           opts = opts || {}
           let w = opts.w || 600
@@ -250,6 +233,15 @@ export default {
           trailer+= '.' + (format || 'png')
           return this.opts.api + 'storage/' + token + '.' + trailer
         }
+      })
+
+      let rel_fields = res.fields.filter(x => x.type == 'relation')
+      res.data.forEach((record, record_i) => {
+        record.rels = {}
+        rel_fields.forEach(f => {
+          record.rels[f.name] = collect(record.rel_ids[f.id].map(id => $op.id_to_record[id]))
+        })
+        delete(record.rel_ids)
       })
     })
   },

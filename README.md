@@ -51,11 +51,16 @@ Example code:
   Downloading data...
 </div>
 <div v-else>
-  <ul>
-    <li v-for="cat in categories" :key="cat.id">
-      {{ cat.get_value('name') }}
-      <img width="100px" :src="sez.get_url('immagine', { w: 100, h: 100, zoom: false, format: 'png' })" alt="">
-    </li>
-  </ul>
+  <div v-for="cat in $op.db.categories" :key="cat.id">
+    <h4>{{ cat.get_value('name') }}</h4>
+
+    <img width="100px" :src="cat.get_url('image', {w:100, h:100})" alt="">
+    <div v-for="prod in cat.rels.products" :key="prod.id">
+      {{ prod.get_value('name') }}
+      <div v-for="feat in prod.rels.features" :key="feat.id">
+        {{ feat.get_value('name') }}
+      </div>
+    </div>
+  </div>
 </div>
 ```
