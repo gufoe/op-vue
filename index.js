@@ -197,7 +197,7 @@ export default {
       let _name_to_field = {}
       res.fields.forEach(f => (_name_to_field[f.name] = f))
 
-      $op.db[res.label] = res.data
+      $op.db[res.name] = res.data
       res.data.forEach((record, record_i) => {
         $op.id_to_record[record.id] = record
 
