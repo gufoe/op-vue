@@ -11,7 +11,8 @@ npm i -s https://github.com/gufoe/op-vue.git
 
 In your main.js file:
 ```js
-Vue.use(op, {
+import OpVue from 'op-vue'
+Vue.use(OpVue, {
   api: 'https://YOUR-DOMAIN.onpage.it/api/',
   token: 'YOUR-APP-TOKEN',
 })
