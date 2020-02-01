@@ -73,17 +73,17 @@ export default {
       console.log('Checking for updates...')
       let last_token = localStorage.getItem('op-data-version')
       if (!last_token) {
-        $op.downloadEverything()
+        $op.downloadData()
       } else {
         axios.get($opts.api + 'view/' + $opts.token + '/dist').then(res => {
           if (res.data.token != last_token) {
-            $op.downloadEverything()
+            $op.downloadData()
           }
         })
       }
     }
 
-    $op.downloadEverything = (on_finish_callback, on_error_callback) => {
+    $op.downloadData = (on_finish_callback, on_error_callback) => {
       if ($op.update) {
         console.log('already updating, download aborted')
         if (on_error_callback) on_error_callback()
@@ -139,6 +139,8 @@ export default {
 
 
     }
+
+    return $op
   },
 
   addFunctionsToData () {
