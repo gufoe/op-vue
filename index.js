@@ -233,14 +233,14 @@ export default {
             // })
         }
 
-        record.get_url = (field_name, w, h, contain, format) => {
+        record.get_url = (field_name, {w, h, zoom, format}) => {
           let value = record.get_value(field_name)
           if (!value) return
           let token = value.token
           let ext = value.ext
           let opts = [w||'', h||''].join('x')
-          if (contain) opts+= '-contain'
-          opts+= '.' + format || 'png'
+          if (!zoom) opts+= '-contain'
+          opts+= '.' + (format || 'png')
           return this.opts.api + 'storage/' + token + '.' + opts
         }
       })
