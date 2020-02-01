@@ -30,16 +30,13 @@ new Vue({
 In your App.vue file:
 ```js
 export default {
-    // ...
-    data () {
-        return {
-            $op: this.$op,
-            // ...
-        }
-    },
 
     created () {
-        $op.checkUpdates()
+        // Will download updates if available
+        $op.init(true)
+
+        // Will only load already downloaded catalogues (use $op.downloadData() before)
+        $op.init(false)
     }
     // ...
 }
