@@ -1,0 +1,12 @@
+{
+  "name": "op-core",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@gitlab.com:oplit/op.js.git",
+  "author": "Giacomo Rizzi <gufoes@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "lzutf8": "^0.5.5"
+  }
+}
