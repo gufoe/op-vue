@@ -21,7 +21,6 @@ var Tim = new (function(){
 })()
 window.Tim = Tim
 
-
 let __json_parse = (string, callback) => {
   let w = new Worker('statics/worker.js')
   w.onmessage = e => {
@@ -29,6 +28,9 @@ let __json_parse = (string, callback) => {
   }
   w.postMessage(string)
 }
+
+let $http = axios.create()
+console.log($http)
 
 export default {
 
@@ -39,7 +41,6 @@ export default {
       data: null,
       db: null,
     }
-    window.$utils = Vue.prototype.$utils = utils
 
     $op.lang = 'it'
     $op.update = null
@@ -50,10 +51,13 @@ export default {
         from_cache: true,
         percent: 0.1,
       }
-      $utils.load('op-data', data => {
+        console.log('bbbbbbbb')
+      utils.load('op-data', data => {
+        console.log('ccc')
         $op.data = data // could be null
         $op.update.percent = 0.9
         this.addFunctionsToData()
+          console.log('ddd')
         $op.update = null
         if (on_finish) on_finish($op.db)
       })
@@ -66,7 +70,7 @@ export default {
         localStorage.setItem('client_id', client_id)
       }
       let track = () => {
-        axios.post($opts.api + 'view/' + $opts.token + '/track/' + client_id).finally(() => {
+        $http.post($opts.api + 'view/' + $opts.token + '/track/' + client_id).finally(() => {
           setTimeout(track, 30000)
         })
       }
@@ -75,6 +79,7 @@ export default {
 
     $op.init = (download_updates) => {
       $op.loadFromStorage(() => {
+        console.log('aaa')
         if (download_updates) $op.downloadUpdates()
       })
     }
@@ -87,7 +92,7 @@ export default {
         $op.downloadData()
       } else {
         this.opts.debug && console.log('Checking if new versions are available')
-        axios.get($opts.api + 'view/' + $opts.token + '/dist').then(res => {
+        $http.get($opts.api + 'view/' + $opts.token + '/dist').then(res => {
           if (res.data.token != last_token) {
             this.opts.debug && console.log('New version available')
             $op.downloadData()
@@ -107,10 +112,10 @@ export default {
       $op.update = { percent: 0 }
 
       this.opts.debug && console.log('downloading info...')
-      axios.get($opts.api + 'view/' + $opts.token + '/dist').then(res => {
+      $http.get($opts.api + 'view/' + $opts.token + '/dist').then(res => {
         let dist = res.data
         this.opts.debug && console.log('downloading data...')
-        axios.get($opts.api + 'storage/' + dist.token, {
+        $http.get($opts.api + 'storage/' + dist.token, {
           responseType: 'text',
           transformResponse: [(data) => { return data; }],
           onDownloadProgress: p => {
@@ -126,7 +131,7 @@ export default {
             // __json_parse(res.data, data => {
             this.opts.debug && console.log('storing data...')
             $op.data = data
-            $utils.store('op-data', res.data)
+            utils.store('op-data', res.data)
             localStorage.setItem('op-data-version', dist.token)
 
             this.opts.debug && console.log('adding functions to data...')
@@ -144,7 +149,7 @@ export default {
             if (on_error_callback) on_error_callback(err.message)
           }
 
-        }).catch(err => { // catch axios error
+        }).catch(err => { // catch $http error
           this.opts.debug && console.error('error downloading data', JSON.stringify(err.message))
           $op.update = null
           if (on_error_callback) on_error_callback(err.message)
