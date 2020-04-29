@@ -17,5 +17,8 @@
     "rollup-plugin-vue": "^5.1.6",
     "rollup-plugin-wasm": "^3.0.0",
     "vue-template-compiler": "^2.6.11"
+  },
+  "scripts": {
+    "build": "rollup --config rollup.config.js"
   }
 }

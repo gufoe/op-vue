@@ -294,13 +294,19 @@ var index = {
 
     // Add functions to each record
     $op.data.resources.forEach(res => {
+      $op.db[res.name] = collect(res.data);
+      res.data.forEach((record, record_i) => {
+        $op.id_to_record[record.id] = record;
+      });
+    });
+
+
+    $op.data.resources.forEach(res => {
       // Maps each field id to the field object (es. _name_to_field[10])
       let _name_to_field = {};
       res.fields.forEach(f => (_name_to_field[f.name] = f));
 
-      $op.db[res.name] = collect(res.data);
       res.data.forEach((record, record_i) => {
-        $op.id_to_record[record.id] = record;
 
         // Return the value of a field, using $op.lang
         record.get_value = (field_name, def) => {
